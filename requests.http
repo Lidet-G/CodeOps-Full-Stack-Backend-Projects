@@ -1,0 +1,87 @@
+@host = http://localhost:3000/api
+
+### RESTAURANTS: list every restaurant
+GET {{host}}/restaurants
+
+### RESTAURANTS: open restaurants (static route must be above :id)
+GET {{host}}/restaurants/open
+
+### RESTAURANTS: filter by delivery area
+GET {{host}}/restaurants?area=Bole
+
+### RESTAURANTS: one restaurant
+GET {{host}}/restaurants/1
+
+### RESTAURANTS: missing restaurant -> 404
+GET {{host}}/restaurants/99
+
+### RESTAURANTS: create one -> 201
+POST {{host}}/restaurants
+Content-Type: application/json
+
+{
+  "name": "New Addis Kitchen",
+  "area": "Kazanchis"
+}
+
+### RESTAURANTS: invalid area -> 400
+POST {{host}}/restaurants
+Content-Type: application/json
+
+{
+  "name": "Invalid Area Kitchen",
+  "area": "Adama"
+}
+
+### DISHES: list all eight seeded dishes
+GET {{host}}/dishes
+
+### DISHES: one dish
+GET {{host}}/dishes/1
+
+### DISHES: missing dish -> 404
+GET {{host}}/dishes/99
+
+### DISHES: filter by restaurant id
+GET {{host}}/dishes?restaurantId=1
+
+### DISHES: create dish -> 201
+POST {{host}}/dishes
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "name": "Firfir",
+  "priceSantim": 24000
+}
+
+### DISHES: unknown restaurant -> 404
+POST {{host}}/dishes
+Content-Type: application/json
+
+{
+  "restaurantId": 999,
+  "name": "Test Dish",
+  "priceSantim": 15000
+}
+
+### DISHES: invalid price -> 400
+POST {{host}}/dishes
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "name": "Invalid Price Dish",
+  "priceSantim": 0
+}
+
+### DISHES: unknown property -> 400
+POST {{host}}/dishes
+Content-Type: application/json
+
+{
+  "restaurantId": 1,
+  "name": "Extra Field Dish",
+  "priceSantim": 10000,
+  "createdBy": "student"
+}
